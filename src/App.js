@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+import React, {useState, useEffect } from "react"; 
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [productos, setProductos] = useState()   
+ useEffect(() => {     
+  
+  fetch("https://api.mercadolibre.com/sites/MLA/search?category=MLA5725")
+   .then(response => response.json())
+   .then(data => setProductos(data.results
+  .slice(0, 10)
+  ));
+   
+  }, []);  
+      console.log(productos)   
+      return (    
+         <div>{
+          productos?.map((producto) => {       
+            return (<img src={producto.thumbnail} alt="producto ML" style={{height: '100px'}}/>
+            ) 
+                })}    
+             </div>  
+              );
+ 
 }
 
 export default App;
